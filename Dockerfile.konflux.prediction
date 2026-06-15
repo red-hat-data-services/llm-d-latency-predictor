@@ -21,7 +21,7 @@ ENV UVICORN_WORKERS=8
 
 USER 1001:1001
 
-CMD ["sh", "-c", "uvicorn llm_d_latency_predictor.prediction_server:app --host 0.0.0.0 --port 8001 --workers $UVICORN_WORKERS"]
+CMD ["sh", "-c", "exec uvicorn llm_d_latency_predictor.prediction_server:app --host 0.0.0.0 --port 8001 --workers $UVICORN_WORKERS"]
 
 LABEL com.redhat.component="odh-latency-predictor-prediction" \
       name="odh-latency-predictor-prediction" \

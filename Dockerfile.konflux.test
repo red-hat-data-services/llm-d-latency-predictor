@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir \
 
 COPY tests ./tests
 
-RUN mkdir -p /test-results
+RUN mkdir -p /test-results && chown 1001:1001 /test-results
 
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1

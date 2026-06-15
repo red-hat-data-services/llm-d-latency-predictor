@@ -21,6 +21,7 @@ dependencies = [
     "xgboost",
     "lightgbm",
     "orjson",
+    "scipy",
 ]
 
 [tool.setuptools.packages.find]
@@ -52,3 +53,25 @@ ignore = [
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.uv]
+index-url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9/simple/"
+environments = [
+    "platform_system == 'Linux' and platform_machine == 'x86_64'",
+    "platform_system == 'Linux' and platform_machine == 'aarch64'",
+]
+
+[[tool.uv.index]]
+name = "aipcc"
+url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9/simple/"
+default = true
+
+[[tool.uv.index]]
+name = "aipcc-test"
+url = "https://packages.redhat.com/api/pypi/public-rhai/rhoai/3.5-EA2/cpu-ubi9-test/simple/"
+explicit = true
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple/"
+explicit = true
