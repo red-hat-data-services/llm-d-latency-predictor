@@ -6,14 +6,8 @@ RUN dnf install -y jq && dnf clean all
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY requirements.txt ./
 RUN pip install --no-cache-dir --no-deps -r requirements.txt
-RUN pip install --no-cache-dir \
-    pytest \
-    pytest-asyncio \
-    requests \
-    httpx \
-    aiohttp
 
 COPY tests ./tests
 
