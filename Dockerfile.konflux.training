@@ -1,0 +1,21 @@
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0@sha256:1459233907bdcfe4fdb4f9a8d39de861bacd868d7a1e5cee083ddd46f93c306d
+FROM ${BASE_IMAGE}
+
+COPY requirements-konflux.txt ./
+RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
+
+COPY src ./src
+ENV PYTHONPATH=/opt/app-root/src
+
+EXPOSE 8000
+
+USER 1001
+
+CMD ["uvicorn", "llm_d_latency_predictor.training_server:app", "--host", "0.0.0.0", "--port", "8000"]
+
+LABEL com.redhat.component="odh-latency-predictor-training" \
+      name="odh-latency-predictor-training" \
+      description="Latency prediction training server for llm-d" \
+      summary="Trains online ML models for TTFT/TPOT latency prediction" \
+      io.k8s.display-name="odh-latency-predictor-training" \
+      io.k8s.description="Latency prediction training server for llm-d"
