@@ -1,0 +1,26 @@
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0@sha256:1459233907bdcfe4fdb4f9a8d39de861bacd868d7a1e5cee083ddd46f93c306d
+FROM ${BASE_IMAGE}
+
+COPY requirements-konflux.txt ./
+RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
+
+COPY src ./src
+ENV PYTHONPATH=/opt/app-root/src
+
+USER root
+RUN mkdir -p /local_models && chown 1001:0 /local_models
+
+EXPOSE 8001
+
+ENV UVICORN_WORKERS=8
+
+USER 1001
+
+CMD ["sh", "-c", "exec uvicorn llm_d_latency_predictor.prediction_server:app --host 0.0.0.0 --port 8001 --workers $UVICORN_WORKERS"]
+
+LABEL com.redhat.component="odh-latency-predictor-prediction" \
+      name="odh-latency-predictor-prediction" \
+      description="Latency prediction server for llm-d" \
+      summary="Serves online ML-based TTFT/TPOT latency predictions" \
+      io.k8s.display-name="odh-latency-predictor-prediction" \
+      io.k8s.description="Latency prediction server for llm-d"
