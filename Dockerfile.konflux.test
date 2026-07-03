@@ -1,0 +1,24 @@
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0@sha256:1459233907bdcfe4fdb4f9a8d39de861bacd868d7a1e5cee083ddd46f93c306d
+FROM ${BASE_IMAGE}
+
+USER root
+RUN dnf install -y jq && dnf clean all
+RUN mkdir -p /test-results && chown 1001:0 /test-results
+USER 1001
+
+COPY requirements-konflux.txt ./
+RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
+
+COPY tests ./tests
+
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+CMD ["pytest", "-v", "-s", "tests/test_dual_server_client.py"]
+
+LABEL com.redhat.component="odh-latency-predictor-test" \
+      name="odh-latency-predictor-test" \
+      description="Test harness for llm-d latency predictor" \
+      summary="Integration tests for latency prediction training and prediction servers" \
+      io.k8s.display-name="odh-latency-predictor-test" \
+      io.k8s.description="Test harness for llm-d latency predictor"
