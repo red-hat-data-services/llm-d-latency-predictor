@@ -1,25 +1,22 @@
-FROM registry.access.redhat.com/ubi9/python-312:latest@sha256:7adc9bee533e01ff0b98220b67d17aca1280344bf7ad0b663bfc84cee7e1adb5
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0@sha256:1459233907bdcfe4fdb4f9a8d39de861bacd868d7a1e5cee083ddd46f93c306d
+FROM ${BASE_IMAGE}
+
+COPY requirements-konflux.txt ./
+RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
+
+COPY src ./src
+ENV PYTHONPATH=/opt/app-root/src
 
 USER root
-
-WORKDIR /app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir --no-deps -r requirements.txt
-
-COPY pyproject.toml README.md ./
-COPY src ./src
-RUN pip install --no-cache-dir --no-deps .
-
-RUN mkdir -p /local_models && chown 1001:1001 /local_models
+RUN mkdir -p /local_models && chown 1001:0 /local_models
 
 EXPOSE 8001
 
 ENV UVICORN_WORKERS=8
 
-USER 1001:1001
+USER 1001
 
-CMD ["sh", "-c", "uvicorn llm_d_latency_predictor.prediction_server:app --host 0.0.0.0 --port 8001 --workers $UVICORN_WORKERS"]
+CMD ["sh", "-c", "exec uvicorn llm_d_latency_predictor.prediction_server:app --host 0.0.0.0 --port 8001 --workers $UVICORN_WORKERS"]
 
 LABEL com.redhat.component="odh-latency-predictor-prediction" \
       name="odh-latency-predictor-prediction" \

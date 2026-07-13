@@ -1,19 +1,15 @@
-FROM registry.access.redhat.com/ubi9/python-312:latest@sha256:7adc9bee533e01ff0b98220b67d17aca1280344bf7ad0b663bfc84cee7e1adb5
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.0@sha256:1459233907bdcfe4fdb4f9a8d39de861bacd868d7a1e5cee083ddd46f93c306d
+FROM ${BASE_IMAGE}
 
-USER root
+COPY requirements-konflux.txt ./
+RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
 
-WORKDIR /app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir --no-deps -r requirements.txt
-
-COPY pyproject.toml README.md ./
 COPY src ./src
-RUN pip install --no-cache-dir --no-deps .
+ENV PYTHONPATH=/opt/app-root/src
 
 EXPOSE 8000
 
-USER 1001:1001
+USER 1001
 
 CMD ["uvicorn", "llm_d_latency_predictor.training_server:app", "--host", "0.0.0.0", "--port", "8000"]
 
