@@ -4,7 +4,6 @@ FROM ${BASE_IMAGE}
 COPY requirements-konflux.txt ./
 RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
 
-COPY VERSION ./
 COPY common ./common
 COPY training ./training
 
