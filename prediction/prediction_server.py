@@ -45,17 +45,19 @@ try:
     import xgboost as xgb
 
     XGBOOST_AVAILABLE = True
-except ImportError:
+except (ImportError, OSError) as e:
+    xgb = None
     XGBOOST_AVAILABLE = False
-    logging.warning("XGBoost not available. Install with: pip install xgboost")
+    logging.warning("XGBoost not available: %s. Install with: pip install xgboost", e)
 
 try:
     import lightgbm as lgb
 
     LIGHTGBM_AVAILABLE = True
-except ImportError:
+except (ImportError, OSError) as e:
+    lgb = None
     LIGHTGBM_AVAILABLE = False
-    logging.warning("LightGBM not available. Install with: pip install lightgbm")
+    logging.warning("LightGBM not available: %s. Install with: pip install lightgbm", e)
 
 from common.types import ModelType, ObjectiveType, QueueGatedModel
 
@@ -86,10 +88,11 @@ class PredictSettings:
     ENABLE_TOKEN_IN_FLIGHT_FEATURES: bool = (
         os.getenv("LATENCY_ENABLE_TOKEN_IN_FLIGHT_FEATURES", "true").lower() == "true"
     )
-    # Off by default: a persisted model trained before these columns existed would
-    # fail on feature-count mismatch until its first retrain. Operators enable this
-    # once training and prediction servers are on code that emits the columns.
-    ENABLE_ENCODER_FEATURES: bool = os.getenv("LATENCY_ENABLE_ENCODER_FEATURES", "false").lower() == "true"
+    # On by default. NOTE: a model persisted before these columns existed will fail
+    # on feature-count mismatch until its first retrain, so when rolling this out on
+    # top of an existing deployment, flush or regenerate models (and keep this flag in
+    # sync with the training server). Set to "false" to disable.
+    ENABLE_ENCODER_FEATURES: bool = os.getenv("LATENCY_ENABLE_ENCODER_FEATURES", "true").lower() == "true"
 
     # Gated ensemble model paths (each wraps noqueue + queued sub-models)
     LOCAL_TTFT_GATED_MODEL_PATH: str = os.getenv("LOCAL_TTFT_GATED_MODEL_PATH", "/local_models/ttft_gated.joblib")
