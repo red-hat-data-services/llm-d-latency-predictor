@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.5@sha256:56b86506fa8c09b60eb0b678481c8dfbf618d6b193554f47b597b42028198cfc
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu-torch2.11-el9.8:1793124073@sha256:4dd0ef061ae5073c1d3e80722f045832f0354bd7a30bd9ca8e0a89041955592b
 FROM ${BASE_IMAGE}
 
 USER root
