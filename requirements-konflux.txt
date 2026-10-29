@@ -13,8 +13,9 @@ anyio==4.14.1 \
     # via
     #   starlette
     #   watchfiles
-certifi==2026.6.17 \
-    --hash=sha256:36a32caf926900a4f112e18621636a19ce6474c5b2aeb148588147d2633ec530
+certifi==2026.10.19 \
+    --hash=sha256:3aad93ed5a2e5467cbe9c3f8879f96949d85dc5964aed70f2ce24edcf6b833f8 \
+    --hash=sha256:a47d0355ba4428a265002bd50960230cae2b0f61cc49c93c0617f5778df1d304
     # via requests
 charset-normalizer==3.4.7 \
     --hash=sha256:29d94e888271160a8b8c2a465d62777b7f0c2a5c056a57b1c47dc60765eea275
