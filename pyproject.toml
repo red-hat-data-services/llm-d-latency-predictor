@@ -16,6 +16,7 @@ dependencies = [
     "requests",
     "river",
     "scikit-learn",
+    "urllib3>=2.8.0",
     "uvicorn[standard]",
     "xgboost",
 ]
