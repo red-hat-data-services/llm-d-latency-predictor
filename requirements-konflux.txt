@@ -34,8 +34,8 @@ attrs==26.1.0 \
     #   aiohttp
     #   jsonschema
     #   referencing
-certifi==2026.6.17 \
-    --hash=sha256:36a32caf926900a4f112e18621636a19ce6474c5b2aeb148588147d2633ec530
+certifi==2026.10.23 \
+    --hash=sha256:4654ed7e29e14f0a35d465a7a79e901f5f145dee3ec9b7703129a0f79aec3202
     # via requests
 charset-normalizer==3.4.7 \
     --hash=sha256:29d94e888271160a8b8c2a465d62777b7f0c2a5c056a57b1c47dc60765eea275
