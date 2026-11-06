@@ -1,8 +1,7 @@
-ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.7@sha256:dbc71ffa04b387b66d46bc1fc21fe46001d522958ce46afb448f5fa2c80f1a85
+ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu-torch2.11-el9.8:1793124073@sha256:4dd0ef061ae5073c1d3e80722f045832f0354bd7a30bd9ca8e0a89041955592b
 FROM ${BASE_IMAGE}
 
 USER root
-RUN dnf install -y jq && dnf clean all
 RUN mkdir -p /test-results && chown 1001:0 /test-results
 USER 1001
 
