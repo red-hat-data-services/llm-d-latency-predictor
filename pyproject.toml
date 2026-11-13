@@ -6,6 +6,7 @@ license = "Apache-2.0"
 description = "Latency prediction and training servers for llm-d"
 dependencies = [
     "aiohttp",
+    "anyio>=4.14.2",
     "fastapi",
     "joblib",
     "lightgbm",
