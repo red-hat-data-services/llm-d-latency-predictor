@@ -4,6 +4,8 @@ FROM ${BASE_IMAGE}
 COPY requirements-konflux.txt ./
 RUN pip install --no-cache-dir --no-deps -r requirements-konflux.txt
 
+RUN rm -f /opt/app-root/bin/uv /opt/app-root/bin/uvx
+
 COPY VERSION ./
 COPY common ./common
 COPY prediction ./prediction
