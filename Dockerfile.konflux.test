@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=quay.io/aipcc/base-images/cpu:3.5.5-1793042162@sha256:56b86506fa8c09b60eb0b678481c8dfbf618d6b193554f47b597b42028198cfc
+ARG BASE_IMAGE=registry.access.redhat.com/ubi9/python-312:9.9@sha256:2efa5e6b314025805f2add5ec53922f98872dfa545d5ec330d3e86dd52df63c2
 FROM ${BASE_IMAGE}
 
 USER root
